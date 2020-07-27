@@ -1,5 +1,6 @@
 require 'pry'
-require_relative 'concerns/commons.rb'
+require_relative './concerns/commons.rb'
+require_relative './zone.rb'
 
 class Region
     extend Concerns::ClassMethods
@@ -21,5 +22,4 @@ end # Region
 
 
 
-binding.pry
 
