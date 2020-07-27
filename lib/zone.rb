@@ -1,7 +1,3 @@
-require_relative './concerns/commons.rb'
-require_relative './region.rb'
-require 'pry'
-
 class Zone
     extend Concerns::ClassMethods
     include Concerns::InstanceMethods
@@ -16,7 +12,4 @@ class Zone
     def routes
         Route.all.select {|route| route.zone = self}
     end # routes
-
 end # Zone
-
-binding.pry

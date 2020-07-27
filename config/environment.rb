@@ -1,1 +1,4 @@
-require_relative "../lib/"
+require 'bundler'
+Bundler.require
+
+require_all 'lib'
