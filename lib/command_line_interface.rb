@@ -11,17 +11,7 @@ class CommandLineInterface
         # ask for range from that location
         max_dist = get_radius
         # ask for difficulty range (verify that it's a boulder or rope grade)
-        puts "What difficulty range are you interested in? NOTE: If you are climbing with a rope, you must enter a range between 5.0 and 5.15, otherwise (if you're bouldering) you must enter a range between V0 and V16."
-        puts "If you would like to see all routes, regardless of difficulty, hit enter."
-        puts "Otherwise, please use the following convention for your desired range: min_difficulty SPACE max_difficulty"
-        diff_range = gets.chomp
-        self.valid_diff_range?(diff_range)
-        if diff_range == ""
-            continue
-        else
-            min_diff, max_diff = diff_range.split(' ')
-        end # if
-
+        min_diff, max_diff = get_difficulty_range
         # ask how the user wants the routes to be sorted (by name, by rating, by difficulty)
         puts "By default, the routes will be listed by Region and Zone (climbing area)."
         puts "How would you like the routes in each Zone to be ordered? "
@@ -45,7 +35,6 @@ class CommandLineInterface
     def get_location
         puts "Please enter your desired location: (latitude SPACE longitude)"
         input = gets.chomp.split(' ')
-        # binding.pry
         self.quit?(input.join)
         if input.length != 2 || !input.all? {|a| a.to_f != 0.0}
             puts "Please enter a valid response."
@@ -56,8 +45,27 @@ class CommandLineInterface
 
     def get_radius        
         puts "How large of an area are you interested in? Please provide a max distance (under 500 miles) from the location above."
-        input = gets.chomp.to_i
+        input = gets.chomp
+        if input.split.length != 1 || input.to_i > 500 || input.to_i < 0
+            puts "please enter a valid radius to look for climbs."
+            self.get_radius
+        end # if 
     end # get_radius
+
+    def get_difficulty_range
+        puts "What difficulty range are you interested in?"
+        puts "NOTE: If you are climbing with a rope, you must enter a range between 5.0 and 5.15" if rope
+        puts "NOTE: If you are bouldering, you must enter a range between V0 and V16." if !rope
+        puts "If you would like to see all routes, regardless of difficulty, hit enter."
+        puts "Otherwise, please use the following convention for your desired range: min_difficulty SPACE max_difficulty"
+        diff_range = gets.chomp
+        self.valid_diff_range?(diff_range)
+        if diff_range == ""
+            continue
+        else
+            min_diff, max_diff = diff_range.split(' ')
+        end # if
+    end # get_difficulty_range
 
     def quit?(input)
         abort("Goodbye!") if input == 'exit'
