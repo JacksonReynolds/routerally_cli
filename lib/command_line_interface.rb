@@ -8,10 +8,8 @@ class CommandLineInterface
         rope = self.get_rope?
         # ask the user what langitude and latitude they are interested in
         lat, long = self.get_range
-        puts lat + long
         # ask for range from that location
-        puts "How large of an area are you interested in? (miles)"
-        max_dist = gets.chomp
+        max_dist = get_distance
         # ask for difficulty range (verify that it's a boulder or rope grade)
         puts "What difficulty range are you interested in? NOTE: If you are climbing with a rope, you must enter a range between 5.0 and 5.15, otherwise (if you're bouldering) you must enter a range between V0 and V16."
         puts "If you would like to see all routes, regardless of difficulty, hit enter."
@@ -46,14 +44,20 @@ class CommandLineInterface
     
     def get_range
         puts "Please enter your desired location: (latitude SPACE longitude)"
-        input = gets.chomp
-        self.quit?(input)
-        if !input.include?(' ')
+        input = gets.chomp.split(' ')
+        # binding.pry
+        self.quit?(input.join)
+        if input.length != 2 || !input.all? {|a| a.to_f != 0.0}
             puts "Please enter a valid response."
             self.get_range
         end # if
-        loc = input.split(' ')
+        input
     end # get_range
+
+    def get_distance        
+        puts "How large of an area are you interested in? Please provide a max distance (under 500 miles) from the location above."
+        input = gets.chomp.to_i
+    end # get_distance
 
     def quit?(input)
         abort("Goodbye!") if input == 'exit'
