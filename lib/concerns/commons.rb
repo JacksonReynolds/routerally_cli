@@ -1,4 +1,4 @@
-module Concerns
+module Commons
     module ClassMethods
         def create(name)
             a = self.new(name)

@@ -1,6 +1,6 @@
 class Zone
-    extend Concerns::ClassMethods
-    include Concerns::InstanceMethods
+    extend Commons::ClassMethods
+    include Commons::InstanceMethods
 
     attr_accessor :name, :region
 
