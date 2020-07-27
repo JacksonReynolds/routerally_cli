@@ -4,10 +4,12 @@ module Concerns
 
         def create(name)
             a = self.new(name)
+            a.save
+            a
         end # self.create
     
         def find_by_name(name)
-            self.all.select {|a| a.name == name}
+            self.all.find {|a| a.name == name}
         end # self.find_by_name
     
         def find_or_create_by_name(name)
@@ -21,8 +23,11 @@ module Concerns
 
         def initialize(name)
             @name = name
-            self.class.all << self
         end #initialize
+
+        def save
+            self.class.all << self
+        end #save
 
     end # InstanceMethods
 
