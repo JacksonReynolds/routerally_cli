@@ -9,9 +9,10 @@ class CommandLineInterface
         # ask the user what langitude and latitude they are interested in
         lat, long = self.get_location
         # ask for range from that location
-        max_dist = get_radius
+        max_dist = self.get_radius
         # ask for difficulty range (verify that it's a boulder or rope grade)
-        min_diff, max_diff = get_difficulty_range
+        min_diff, max_diff = get_difficulty_range(rope)
+        puts mid_diff, max_diff
         # ask how the user wants the routes to be sorted (by name, by rating, by difficulty)
         puts "By default, the routes will be listed by Region and Zone (climbing area)."
         puts "How would you like the routes in each Zone to be ordered? "
@@ -44,26 +45,29 @@ class CommandLineInterface
     end # get_location
 
     def get_radius        
-        puts "How large of an area are you interested in? Please provide a max distance (under 500 miles) from the location above."
+        puts "How large of an area are you interested in? Please provide a max distance (under 500 miles) from the location above. The default is 30 miles"
         input = gets.chomp
-        if input.split.length != 1 || input.to_i > 500 || input.to_i < 0
-            puts "please enter a valid radius to look for climbs."
+        self.quit?(input)
+        if input.split.length != 1 || input.to_i > 500 || input.to_i < 0 || input == ''
+            puts "Please enter a valid radius to look for climbs."
             self.get_radius
-        end # if 
+        else 
+            input = '30'
+        end # if
+        input
     end # get_radius
 
     def get_difficulty_range
         puts "What difficulty range are you interested in?"
-        puts "NOTE: If you are climbing with a rope, you must enter a range between 5.0 and 5.15" if rope
-        puts "NOTE: If you are bouldering, you must enter a range between V0 and V16." if !rope
+        puts "Please enter a difficulty between 0 and 15. 15 being the hardest."
         puts "If you would like to see all routes, regardless of difficulty, hit enter."
         puts "Otherwise, please use the following convention for your desired range: min_difficulty SPACE max_difficulty"
-        diff_range = gets.chomp
-        self.valid_diff_range?(diff_range)
-        if diff_range == ""
-            continue
-        else
-            min_diff, max_diff = diff_range.split(' ')
+        input = gets.chomp.split(' ')
+        self.quit?(input.join)
+        if input.empty?
+            return ''
+        elsif input[0].to_i < 0 || input[1].to_i > 15
+            puts 
         end # if
     end # get_difficulty_range
 
