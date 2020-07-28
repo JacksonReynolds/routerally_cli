@@ -4,10 +4,8 @@ class CommandLineInterface
 
     def run 
         self.greet_user
-        args_hash = self.selections
-        # binding.pry
-        self.get_data(args_hash)
-        # self.
+        args_hash = self.arguments
+        route_data = APIHandler.new.get_route_data(args_hash)
     end # run
 
     def greet_user
@@ -16,10 +14,10 @@ class CommandLineInterface
 
     def get_data(args)
         end_point = "https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=#{args[:lat]}&lon=#{args[:long]}&maxDistance=#{args[:max_dist]}&minDiff=#{args[:min_diff]}&maxDiff=#{args[:max_diff]}&maxResults=#{args[:qty]}&key=#{MTN_PROJECT_KEY}"
-        puts end_point
+        APIHandler.new(end_point)
     end # get_data
 
-    def selections
+    def arguments
         args= {}
         args[:rope] = self.get_rope?
         args[:lat], args[:long] = self.get_location
@@ -27,7 +25,7 @@ class CommandLineInterface
         args[:min_diff], args[:max_diff] = self.get_difficulty_range(args[:rope])
         args[:qty] = self.get_qty
         args
-    end # selections
+    end # arguments
     
     def get_rope?
         puts "Will you be using a rope? (y/n)"
