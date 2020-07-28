@@ -79,7 +79,7 @@ class CommandLineInterface
         elsif input[0].to_i < 0 || input[1].to_i > 15 || input.length != 2 || input.join.match(/\D/)
             puts "Please enter a valid range."
             self.get_difficulty_range(rope)
-        elsif input[0] > input[1]
+        elsif input[0].to_i > input[1].to_i
             puts "Please follow the convention above."
             self.get_difficulty_range(rope)
         elsif rope
@@ -94,8 +94,8 @@ class CommandLineInterface
         input = gets.chomp
         self.quit?(input)
         if input == ''
-            input
-        elsif input.split.length != 1 || input.match(/\D/) || input.to_i <= 0 || input > 500
+            input = 50
+        elsif input.split.length != 1 || input.match(/\D/) || input.to_i <= 0 || input.to_i > 500
             puts "PLease enter a valid quatity."
             self.get_qty
         else
