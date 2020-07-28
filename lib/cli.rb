@@ -5,17 +5,18 @@ class CommandLineInterface
     def run 
         self.greet_user
         args_hash = self.arguments
-        route_data = APIHandler.new.get_route_data(args_hash)
+        routes = APIHandler.new(endpoint(args_hash)).make_routes
     end # run
 
     def greet_user
+        puts "Welcome to Route Rally! This command line interface uses the Mountain Project API to find climbing routes in a location provided by you, the user."
+        puts "If at any time you want to exit the application, type 'exit' at any prompt."
+        puts "Enjoy!"
+    end
 
-    end # greet_user
-
-    def get_data(args)
-        end_point = "https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=#{args[:lat]}&lon=#{args[:long]}&maxDistance=#{args[:max_dist]}&minDiff=#{args[:min_diff]}&maxDiff=#{args[:max_diff]}&maxResults=#{args[:qty]}&key=#{MTN_PROJECT_KEY}"
-        APIHandler.new(end_point)
-    end # get_data
+    def endpoint(args)
+        "https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=#{args[:lat]}&lon=#{args[:long]}&maxDistance=#{args[:max_dist]}&minDiff=#{args[:min_diff]}&maxDiff=#{args[:max_diff]}&maxResults=#{args[:qty]}&key=#{MTN_PROJECT_KEY}"
+    end # endpoint
 
     def arguments
         args= {}
