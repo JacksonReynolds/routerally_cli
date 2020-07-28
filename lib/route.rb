@@ -2,7 +2,7 @@ class Route
     extend Commons::ClassMethods
     include Commons::InstanceMethods
 
-    attr_accessor :name, :style, :grade, :location, :stars, :url, :pitches, :id, :coords
+    attr_accessor :id, :name, :type, :rating, :stars, :pitches, :location, :url, :longitude, :latitude
 
     @@all = []
     
@@ -11,12 +11,29 @@ class Route
         self.save
     end #initialize
 
+    def self.create(name)
+        a = self.new(name)
+        a.save
+        a
+    end # self.create
+
+    def self.find_by_id(id)
+        self.all.find {|a| a.id == id.to_i}
+    end # self.find_by_name
+
     def self.all
         @@all
     end #self.all
 
-    # def self.new_from_api(route_hash)
-    #     attr_hash = {}
-    #     attr_hash[:name] = route_has
-    # end
+    def self.reset!
+        self.all.clear
+    end
+
+    def save
+        self.class.all << self
+    end #save
+
+    def self.new_from_api(route_hash)
+        binding.pry
+    end
 end # Route

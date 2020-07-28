@@ -14,7 +14,7 @@ class APIHandler
     end
 
     def make_routes
-        self.get_route_data.each {|route| Route.new_from_api(route)}
+        routes = self.get_route_data.collect {|route| Route.new_from_api(route)}
     end
 
 end # APIHandler

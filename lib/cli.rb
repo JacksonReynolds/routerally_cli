@@ -5,7 +5,8 @@ class CommandLineInterface
     def run 
         self.greet_user
         args_hash = self.arguments
-        routes = APIHandler.new(endpoint(args_hash)).make_routes
+        APIHandler.new(endpoint(args_hash)).make_routes
+        # self.display_routes
     end # run
 
     def greet_user
@@ -101,6 +102,10 @@ class CommandLineInterface
             input
         end # if
     end # get_qty
+
+    def display_routes
+        puts "How would you like to sort the routes?"
+    end
 
     def quit?(input)
         abort("Goodbye!") if input == 'exit'
