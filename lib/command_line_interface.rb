@@ -5,8 +5,8 @@ class CommandLineInterface
     def run 
         self.greet_user
         args_hash = self.selections
-        binding.pry
-        # self.get_data
+        # binding.pry
+        self.get_data(args_hash)
         # self.
     end # run
 
@@ -14,12 +14,18 @@ class CommandLineInterface
 
     end # greet_user
 
+    def get_data(args)
+        end_point = "https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=#{args[:lat]}&lon=#{args[:long]}&maxDistance=#{args[:max_dist]}&minDiff=#{args[:min_diff]}&maxDiff=#{args[:max_diff]}&maxResults=#{args[:qty]}&key=#{MTN_PROJECT_KEY}"
+        puts end_point
+    end # get_data
+
     def selections
         args= {}
         args[:rope] = self.get_rope?
         args[:lat], args[:long] = self.get_location
         args[:max_dist] = self.get_radius
         args[:min_diff], args[:max_diff] = self.get_difficulty_range(args[:rope])
+        args[:qty] = self.get_qty
         args
     end # selections
     
@@ -49,10 +55,10 @@ class CommandLineInterface
     end # get_location
 
     def get_radius        
-        puts "How large of an area are you interested in? Please provide a max distance (under 500 miles) from the location above. The default is 30 miles"
+        puts "How large of an area are you interested in? Please provide a max distance (under 200 miles) from the location above. The default is 30 miles"
         input = gets.chomp
         self.quit?(input)
-        if input.split.length != 1 || input.to_i > 500 || input.to_i <= 0 || input.match(/\D/)
+        if input.split.length != 1 || input.to_i >= 200 || input.to_i <= 0 || input.match(/\D/)
             puts "Please enter a valid radius."
             self.get_radius
         elsif input == ''
@@ -82,6 +88,20 @@ class CommandLineInterface
             input.collect {|diff| diff.prepend("V")}
         end # if
     end # get_difficulty_range
+
+    def get_qty
+        puts "Please enter how many routes you would like to see, enter to use default: (Max of 500, defaults to 50)"
+        input = gets.chomp
+        self.quit?(input)
+        if input == ''
+            input
+        elsif input.split.length != 1 || input.match(/\D/) || input.to_i <= 0 || input > 500
+            puts "PLease enter a valid quatity."
+            self.get_qty
+        else
+            input
+        end # if
+    end # get_qty
 
     def quit?(input)
         abort("Goodbye!") if input == 'exit'
