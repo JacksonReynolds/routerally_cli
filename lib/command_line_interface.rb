@@ -1,23 +1,27 @@
 class CommandLineInterface
 
-    API_KEY = "200780347-89599c6f362507786b86a0c748de6a1e"
+    MTN_PROJECT_KEY = "200780347-89599c6f362507786b86a0c748de6a1e"
 
-    def run
-        # print greeting
-        # ask if the user is using a rope or not (y/n)
-        rope = self.get_rope?
-        # ask the user what langitude and latitude they are interested in
-        lat, long = self.get_location
-        # ask for range from that location
-        max_dist = self.get_radius
-        # ask for difficulty range (verify that it's a boulder or rope grade)
-        min_diff, max_diff = get_difficulty_range(rope)
-        puts mid_diff, max_diff
-        # ask how the user wants the routes to be sorted (by name, by rating, by difficulty)
-        puts "By default, the routes will be listed by Region and Zone (climbing area)."
-        puts "How would you like the routes in each Zone to be ordered? "
-
+    def run 
+        self.greet_user
+        args_hash = self.selections
+        binding.pry
+        # self.get_data
+        # self.
     end # run
+
+    def greet_user
+
+    end # greet_user
+
+    def selections
+        args= {}
+        args[:rope] = self.get_rope?
+        args[:lat], args[:long] = self.get_location
+        args[:max_dist] = self.get_radius
+        args[:min_diff], args[:max_diff] = self.get_difficulty_range(args[:rope])
+        args
+    end # selections
     
     def get_rope?
         puts "Will you be using a rope? (y/n)"
@@ -37,9 +41,9 @@ class CommandLineInterface
         puts "Please enter your desired location: (latitude SPACE longitude)"
         input = gets.chomp.split(' ')
         self.quit?(input.join)
-        if input.length != 2 || !input.all? {|a| a.to_f != 0.0}
+        if input.length != 2 || input.join.match(/[a-zA-Z]/)
             puts "Please enter a valid response."
-            self.get_range
+            self.get_location
         end # if
         input
     end # get_location
@@ -48,16 +52,16 @@ class CommandLineInterface
         puts "How large of an area are you interested in? Please provide a max distance (under 500 miles) from the location above. The default is 30 miles"
         input = gets.chomp
         self.quit?(input)
-        if input.split.length != 1 || input.to_i > 500 || input.to_i < 0 || input == ''
-            puts "Please enter a valid radius to look for climbs."
+        if input.split.length != 1 || input.to_i > 500 || input.to_i <= 0 || input.match(/\D/)
+            puts "Please enter a valid radius."
             self.get_radius
-        else 
+        elsif input == ''
             input = '30'
         end # if
         input
     end # get_radius
 
-    def get_difficulty_range
+    def get_difficulty_range(rope)
         puts "What difficulty range are you interested in?"
         puts "Please enter a difficulty between 0 and 15. 15 being the hardest."
         puts "If you would like to see all routes, regardless of difficulty, hit enter."
@@ -65,9 +69,17 @@ class CommandLineInterface
         input = gets.chomp.split(' ')
         self.quit?(input.join)
         if input.empty?
-            return ''
-        elsif input[0].to_i < 0 || input[1].to_i > 15
-            puts 
+            ['','']
+        elsif input[0].to_i < 0 || input[1].to_i > 15 || input.length != 2 || input.join.match(/\D/)
+            puts "Please enter a valid range."
+            self.get_difficulty_range(rope)
+        elsif input[0] > input[1]
+            puts "Please follow the convention above."
+            self.get_difficulty_range(rope)
+        elsif rope
+            input.collect {|diff| diff.prepend("5.")}
+        else 
+            input.collect {|diff| diff.prepend("V")}
         end # if
     end # get_difficulty_range
 
