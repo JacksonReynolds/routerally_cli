@@ -1,7 +1,4 @@
 class Route
-    extend Commons::ClassMethods
-    include Commons::InstanceMethods
-
     attr_accessor :id, :name, :type, :rating, :stars, :pitches, :location, :url, :longitude, :latitude
 
     @@all = []
