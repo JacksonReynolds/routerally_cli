@@ -98,7 +98,7 @@ class CommandLineInterface
         if input == ''
             input = 50
         elsif input.split.length != 1 || input.match(/\D/) || input.to_i <= 0 || input.to_i > 500
-            puts "PLease enter a valid quatity."
+            puts "Please enter a valid quatity."
             self.get_qty
         else
             input
@@ -107,13 +107,28 @@ class CommandLineInterface
 
     def display_routes
         sorted_routes = self.sort_routes
+        no_routes?(sorted_routes)
         sorted_routes.each {|route| self.display_route(route)}
         self.next_option
     end
 
+    def no_routes?(sorted_routes)
+        if sorted_routes.empty?
+            puts "There are no routes in the area you specified. If you would like to try again, type 'again', otherwise type 'exit'."
+            input = gets.chomp
+            self.quit?(input)
+            if input == 'again'
+                self.run
+            else
+                puts "Please enter one of the choices above."
+                self.no_routes(sorted_routes)
+            end
+        end
+    end
+
     def next_option        
         puts "If you would like to look at a particular route, enter the route ID."
-        puts "If you owuld like to re-sort, enter 'sort'"
+        puts "If you would like to re-sort, enter 'sort'"
         puts "If you want to search for a different set of routes, enter 'again'"
         input = gets.chomp
         self.quit?(input)
