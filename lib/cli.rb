@@ -53,8 +53,9 @@ class CommandLineInterface
         if input.length != 2 || input.join.match(/[a-zA-Z]/)
             puts "Please enter a valid response."
             self.get_location
+        else
+            input
         end # if
-        input
     end # get_location
 
     def get_radius        
@@ -66,8 +67,9 @@ class CommandLineInterface
             self.get_radius
         elsif input == ''
             input = '30'
+        else 
+            input
         end # if
-        input
     end # get_radius
 
     def get_difficulty_range(rope)
@@ -139,11 +141,17 @@ class CommandLineInterface
             self.display_routes
         elsif input == 'again'
             self.run
-        elsif input.length == 9 
+        elsif input.length == 9 && !input.match(/\D/)
             route = Route.find_by_id(input)
-            self.display_route(route)
-            self.next_option
+            if !route
+                puts "Please enter a valid ID"
+            else
+                self.display_route(route)
+            end
+        else
+            puts "Please enter a valid ID"
         end
+        self.next_option
     end
 
     def sort_routes
@@ -161,7 +169,6 @@ class CommandLineInterface
             puts "Please enter a valid sort method."
             self.sort_routes
         end
-        sorted_routes
     end
 
     def display_route(route)
