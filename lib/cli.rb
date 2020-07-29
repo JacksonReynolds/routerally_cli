@@ -107,18 +107,24 @@ class CommandLineInterface
 
     def display_routes
         sorted_routes = self.sort_routes
-        sorted_routes.each do |route|
-            puts "       ID: #{route.id}"
-            puts "     Name: #{route.name}"
-            puts "     Type: #{route.type}"
-            puts "   Rating: #{route.rating}"
-            puts "    Stars: #{route.stars}"
-            puts "  Pitches: #{route.pitches}"
-            puts " Location: #{route.location}"
-            puts " Latitude: #{route.latitude}"
-            puts "Longitude: #{route.longitude}"
-            puts "      URL: #{route.url}"
-            puts "_______________________________________\n"
+        sorted_routes.each {|route| self.display_route(route)}
+        self.next_option
+    end
+
+    def next_option        
+        puts "If you would like to look at a particular route, enter the route ID."
+        puts "If you owuld like to re-sort, enter 'sort'"
+        puts "If you want to search for a different set of routes, enter 'again'"
+        input = gets.chomp
+        self.quit?(input)
+        if input == 'sort'
+            self.display_routes
+        elsif input == 'again'
+            self.run
+        elsif input.length == 9 
+            route = Route.find_by_id(input)
+            self.display_route(route)
+            self.next_option
         end
     end
 
@@ -140,8 +146,18 @@ class CommandLineInterface
         sorted_routes
     end
 
-    def display_route(id)
-
+    def display_route(route)
+        puts "       ID: #{route.id}"
+        puts "     Name: #{route.name}"
+        puts "     Type: #{route.type}"
+        puts "   Rating: #{route.rating}"
+        puts "    Stars: #{route.stars}"
+        puts "  Pitches: #{route.pitches}"
+        puts " Location: #{route.location}"
+        puts " Latitude: #{route.latitude}"
+        puts "Longitude: #{route.longitude}"
+        puts "      URL: #{route.url}"
+        puts "_______________________________________\n"
     end
 
     def quit?(input)

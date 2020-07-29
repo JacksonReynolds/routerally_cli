@@ -12,7 +12,7 @@ class Route
     end #initialize
 
     def self.find_by_id(id)
-        self.all.find {|a| a.id == id.to_i}
+        self.all.detect {|a| a.id == id.to_i}
     end # self.find_by_name
 
     def self.all
