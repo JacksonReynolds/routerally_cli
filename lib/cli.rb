@@ -143,11 +143,7 @@ class CommandLineInterface
             self.run
         elsif input.length == 9 && !input.match(/\D/)
             route = Route.find_by_id(input)
-            if !route
-                puts "Please enter a valid ID"
-            else
-                self.display_route(route)
-            end
+            route ? self.display_route(route) : puts "Please enter a valid ID"
         else
             puts "Please enter a valid ID"
         end
