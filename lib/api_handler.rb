@@ -1,5 +1,4 @@
 class APIHandler
-    include HTTParty
 
     attr_accessor :url
 
@@ -8,13 +7,14 @@ class APIHandler
     end # initialize
 
     def get_route_data
-        binding.pry
         response = HTTParty.get(self.url)
-        puts response.body
     end
 
     def make_routes
-        routes = self.get_route_data.collect {|route| Route.new_from_api(route)}
+        Route.reset!
+        self.get_route_data["routes"].each do |route_attrs| 
+            Route.new_from_api(route_attrs)
+        end
     end
 
 end # APIHandler

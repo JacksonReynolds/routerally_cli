@@ -6,7 +6,7 @@ class CommandLineInterface
         self.greet_user
         args_hash = self.arguments
         APIHandler.new(endpoint(args_hash)).make_routes
-        # self.display_routes
+        self.display_routes
     end # run
 
     def greet_user
@@ -73,15 +73,17 @@ class CommandLineInterface
         puts "If you would like to see all routes, regardless of difficulty, hit enter."
         puts "Otherwise, please use the following convention for your desired range: min_difficulty SPACE max_difficulty"
         input = gets.chomp.split(' ')
-        self.quit?(input.join)
-        if input.empty?
-            ['','']
+        self.quit?(input.join)        
+        if input.empty? && rope # user wants all rope routes
+            ['5.0','5.15']
+        elsif input.empty? && !rope # user wants all boulder routes
+            ['V0','V15']
         elsif input[0].to_i < 0 || input[1].to_i > 15 || input.length != 2 || input.join.match(/\D/)
             puts "Please enter a valid range."
             self.get_difficulty_range(rope)
         elsif input[0].to_i > input[1].to_i
             puts "Please follow the convention above."
-            self.get_difficulty_range(rope)
+            self.get_difficulty_range(rope)        
         elsif rope
             input.collect {|diff| diff.prepend("5.")}
         else 
@@ -104,7 +106,42 @@ class CommandLineInterface
     end # get_qty
 
     def display_routes
+        sorted_routes = self.sort_routes
+        sorted_routes.each do |route|
+            puts "       ID: #{route.id}"
+            puts "     Name: #{route.name}"
+            puts "     Type: #{route.type}"
+            puts "   Rating: #{route.rating}"
+            puts "    Stars: #{route.stars}"
+            puts "  Pitches: #{route.pitches}"
+            puts " Location: #{route.location}"
+            puts " Latitude: #{route.latitude}"
+            puts "Longitude: #{route.longitude}"
+            puts "      URL: #{route.url}"
+            puts "_______________________________________\n"
+        end
+    end
+
+    def sort_routes
         puts "How would you like to sort the routes?"
+        puts "Enter: name, rating (difficulty) or stars"
+        input = gets.chomp
+        self.quit?(input)
+        if input == 'name'
+            sorted_routes = Route.all.sort {|a,b| a.name <=> b.name}
+        elsif input == "rating"
+            sorted_routes = Route.all.sort {|a,b| a.rating <=> b.rating}
+        elsif input == 'stars'
+            sorted_routes = Route.all.sort {|a,b| a.stars <=> b.stars}
+        else
+            puts "Please enter a valid sort method."
+            self.sort_routes
+        end
+        sorted_routes
+    end
+
+    def display_route(id)
+
     end
 
     def quit?(input)
