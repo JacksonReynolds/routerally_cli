@@ -10,9 +10,12 @@ class CommandLineInterface
     end # run
 
     def greet_user
+        puts "____________________________________________________________________________________________________________________________________________________"
         puts "Welcome to Route Rally! This command line interface uses the Mountain Project API to find climbing routes in a location provided by you, the user."
         puts "If at any time you want to exit the application, type 'exit' at any prompt."
         puts "Enjoy!"
+        puts "____________________________________________________________________________________________________________________________________________________"
+
     end
 
     def endpoint(args)
