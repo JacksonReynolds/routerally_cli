@@ -50,7 +50,7 @@ class CommandLineInterface
         puts "Please enter your desired location: (latitude SPACE longitude)"
         input = gets.chomp.split(' ')
         self.quit?(input.join)
-        if input.length != 2 || input.join.match(/[a-zA-Z]/)
+        if input.length != 2 || input.join.match(/[a-zA-Z]/) || input[0].to_f.abs > 90 || input[1].to_f.abs > 180
             puts "Please enter a valid response."
             self.get_location
         else
