@@ -143,7 +143,7 @@ class CommandLineInterface
             self.run
         elsif input.length == 9 && !input.match(/\D/)
             route = Route.find_by_id(input)
-            route ? self.display_route(route) : puts "Please enter a valid ID"
+            route ? self.display_route(route) : puts("Please enter a valid ID")
         else
             puts "Please enter a valid ID"
         end
@@ -155,12 +155,8 @@ class CommandLineInterface
         puts "Enter: name, rating (difficulty) or stars"
         input = gets.chomp
         self.quit?(input)
-        if input == 'name'
-            sorted_routes = Route.all.sort {|a,b| a.name <=> b.name}
-        elsif input == "rating"
-            sorted_routes = Route.all.sort {|a,b| a.rating <=> b.rating}
-        elsif input == 'stars'
-            sorted_routes = Route.all.sort {|a,b| a.stars <=> b.stars}
+        if input == 'name' || input == 'rating' || input == 'stars'
+            Route.sort(input)
         else
             puts "Please enter a valid sort method."
             self.sort_routes

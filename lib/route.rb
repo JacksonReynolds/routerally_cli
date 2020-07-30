@@ -39,4 +39,8 @@ class Route
         }
         self.new(attr_hash)
     end
+
+    def self.sort(input)
+        self.all.sort {|a,b| a.send(input) <=> b.send(input)}
+    end
 end # Route
