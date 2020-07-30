@@ -20,3 +20,4 @@ NOTE: you will need the latitude and longitude of the locations in decimal forma
 
 ## Contributors Guide
 
+Refer to CONTRIBUTING.md in the parent directory for this application for guidelines on contributing.
