@@ -10,7 +10,7 @@ Make sure you have installed bundler. You can check using your terminal to navig
 
 ## Install
 
-Once you have downloaded or forked the repository, navigate the terminal into the routerally_cli directory. Run `bundler install` to download the necessary gems for the application.
+Once you have downloaded the repository, navigate the terminal into the routerally_cli directory. Run `bundler install` to download the necessary gems for the application.
 
 ## Running Route Rally
 
@@ -21,3 +21,11 @@ NOTE: you will need the latitude and longitude of the locations in decimal forma
 ## Contributors Guide
 
 Refer to CONTRIBUTING.md in the parent directory for this application for guidelines on contributing.
+
+## Authors
+
+Jackson Reynolds - [GitHub](https://github.com/JacksonReynolds)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
