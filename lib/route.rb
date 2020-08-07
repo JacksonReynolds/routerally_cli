@@ -4,7 +4,7 @@ class Route
     @@all = []
     
     def initialize (attr_hash)
-        attr_hash.each {|key, value| self.send(("#{key}="), value)}
+        attr_hash.each {|key, value| self.send(("#{key}="), value) if self.respond_to?(key.to_sym)}
         self.save
     end #initialize
 
@@ -25,19 +25,19 @@ class Route
     end #save
 
     def self.new_from_api(route_hash)
-        attr_hash = {
-            id: route_hash['id'],
-            name: route_hash['name'],
-            type: route_hash['type'],
-            rating: route_hash['rating'],
-            stars: route_hash['stars'],
-            pitches: route_hash['pitches'],
-            location: route_hash['location'],
-            url: route_hash['url'],
-            longitude: route_hash['longitude'],
-            latitude: route_hash['latitude']
-        }
-        self.new(attr_hash)
+        # attr_hash = {
+        #     id: route_hash['id'],
+        #     name: route_hash['name'],
+        #     type: route_hash['type'],
+        #     rating: route_hash['rating'],
+        #     stars: route_hash['stars'],
+        #     pitches: route_hash['pitches'],
+        #     location: route_hash['location'],
+        #     url: route_hash['url'],
+        #     longitude: route_hash['longitude'],
+        #     latitude: route_hash['latitude']
+        # }
+        self.new(route_hash)
     end
 
     def self.sort(input)

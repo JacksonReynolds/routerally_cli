@@ -13,7 +13,7 @@ class APIHandler
     def make_routes
         Route.reset!
         self.get_route_data["routes"].each do |route_attrs| 
-            Route.new_from_api(route_attrs)
+            Route.new(route_attrs)
         end
     end
 
