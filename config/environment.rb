@@ -1,7 +1,9 @@
 require 'bundler'
 Bundler.require
 
-require 'dotenv/load'
+require 'dotenv'
+
+Dotenv.load
 
 require_all 'lib'
 require 'httparty'

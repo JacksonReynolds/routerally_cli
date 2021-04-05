@@ -1,6 +1,6 @@
 class CommandLineInterface
 
-    MTN_PROJECT_KEY = ENV[MTN_PROJECT_KEY]
+    MTN_PROJECT_KEY = ENV['MTN_PROJECT_KEY']
 
     def run 
         self.greet_user
